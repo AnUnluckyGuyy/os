@@ -11,7 +11,21 @@ void print(char* text) {
     }
 }
 
+char *video = (char*)0xB8000;
+
+void print_vga(char *text) {
+    int pos = 0;
+
+    for (char *c = text; *c != '\0'; c++) {
+        video[pos] = *c;
+        video[pos + 1] = 0x07;
+
+        pos += 2;
+    }
+}
+
 void kernel_main() {
     print("hello world\n");
+    print_vga("hello world");
     while(1);
 }
