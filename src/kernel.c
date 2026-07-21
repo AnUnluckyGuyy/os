@@ -25,7 +25,7 @@ void print_vga(char *text) {
 }
 
 void kernel_main() {
-    print("hello world\n");
+    //print("hello world\n");
     print_vga("hello world");
     while(1);
 }
