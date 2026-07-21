@@ -1,4 +1,4 @@
-section .multiboot
+section .multiboot ; multiboot header
 align 4
 
 dd 0x1BADB002
