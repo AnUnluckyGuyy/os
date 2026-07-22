@@ -1,6 +1,6 @@
 # os
 
-to compile the os run:
+To compile run:
 ```bash
 make
 ```
