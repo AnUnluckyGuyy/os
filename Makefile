@@ -27,7 +27,15 @@ $(BUILD)/serial.o: $(SRC)/drivers/serial.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/kernel.bin: $(BUILD)/boot.o $(BUILD)/kernel.o $(BUILD)/vga.o $(BUILD)/serial.o
+$(BUILD)/keyboard.o: $(SRC)/drivers/keyboard.c
+	mkdir -p $(BUILD)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD)/io.o: $(SRC)/cpu/io.c
+	mkdir -p $(BUILD)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD)/kernel.bin: $(BUILD)/boot.o $(BUILD)/kernel.o $(BUILD)/vga.o $(BUILD)/serial.o $(BUILD)/keyboard.o $(BUILD)/io.o
 	$(LD) $(LDFLAGS) -o $@ $^
 
 $(ISO)/boot/kernel.bin: $(BUILD)/kernel.bin
@@ -38,7 +46,7 @@ os.iso: $(ISO)/boot/kernel.bin
 	grub-mkrescue -o $@ $(ISO)
 
 run: os.iso
-	qemu-system-i386 -cdrom os.iso
+	qemu-system-i386 -cdrom os.iso -nographic
 
 clean:
 	rm -rf $(BUILD)
