@@ -11,15 +11,23 @@ ISO = iso
 
 all: os.iso
 
-$(BUILD)/boot.o: $(SRC)/boot.asm
+$(BUILD)/boot.o: $(SRC)/boot/boot.asm
 	mkdir -p $(BUILD)
 	$(AS) -f elf32 $< -o $@
 
-$(BUILD)/kernel.o: $(SRC)/kernel.c
+$(BUILD)/kernel.o: $(SRC)/kernel/kernel.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/kernel.bin: $(BUILD)/boot.o $(BUILD)/kernel.o
+$(BUILD)/vga.o: $(SRC)/drivers/vga.c
+	mkdir -p $(BUILD)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD)/serial.o: $(SRC)/drivers/serial.c
+	mkdir -p $(BUILD)
+	$(CC) $(CFLAGS) $< -o $@
+
+$(BUILD)/kernel.bin: $(BUILD)/boot.o $(BUILD)/kernel.o $(BUILD)/vga.o $(BUILD)/serial.o
 	$(LD) $(LDFLAGS) -o $@ $^
 
 $(ISO)/boot/kernel.bin: $(BUILD)/kernel.bin
