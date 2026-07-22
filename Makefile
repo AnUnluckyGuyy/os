@@ -46,7 +46,7 @@ os.iso: $(ISO)/boot/kernel.bin
 	grub-mkrescue -o $@ $(ISO)
 
 run: os.iso
-	qemu-system-i386 -cdrom os.iso -nographic
+	qemu-system-i386 -cdrom os.iso
 
 clean:
 	rm -rf $(BUILD)
