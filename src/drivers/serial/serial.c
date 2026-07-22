@@ -1,5 +1,5 @@
 #include "serial.h"
-#include "../cpu/io.h"
+#include "../../cpu/io.h"
 
 void serial_putchar(char c)
 {

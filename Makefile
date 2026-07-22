@@ -19,15 +19,15 @@ $(BUILD)/kernel.o: $(SRC)/kernel/kernel.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/vga.o: $(SRC)/drivers/vga.c
+$(BUILD)/vga.o: $(SRC)/drivers/screen/vga.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/serial.o: $(SRC)/drivers/serial.c
+$(BUILD)/serial.o: $(SRC)/drivers/serial/serial.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 
-$(BUILD)/keyboard.o: $(SRC)/drivers/keyboard.c
+$(BUILD)/keyboard.o: $(SRC)/drivers/keyboard/keyboard.c
 	mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) $< -o $@
 

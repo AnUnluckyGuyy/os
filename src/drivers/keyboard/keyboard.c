@@ -1,5 +1,5 @@
 #include "keyboard.h"
-#include "../cpu/io.h"
+#include "../../cpu/io.h"
 
 char keymap[128] = {
     [0x1E] = 'a',
@@ -30,6 +30,7 @@ char keymap[128] = {
     [0x2C] = 'z',
     [0x39] = ' ',
     [0x1C] = '\n',
+    [0x0E] = '\b',
 };
 
 unsigned char read_keyboard() {

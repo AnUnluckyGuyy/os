@@ -1,6 +1,6 @@
-#include "../drivers/vga.h"
-#include "../drivers/serial.h"
-#include "../drivers/keyboard.h"
+#include "../drivers/screen/vga.h"
+#include "../drivers/serial/serial.h"
+#include "../drivers/keyboard/keyboard.h"
 
 void kernel_main() {
     vga_disable_cursor();
