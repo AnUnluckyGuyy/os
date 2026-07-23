@@ -24,6 +24,10 @@ void backspace() {
 	video[index * 2 + 1] = 0x07;
 }
 
+void tab() {
+	cursor_x += 4;
+}
+
 int is_offscreen() {
 	if (cursor_x >= 80) {
 		cursor_x = 0;
@@ -50,6 +54,9 @@ void vga_putchar(char c) {
 		return;
 	} else if (c == '\b') {
 		backspace();
+		return;
+	} else if (c == '\t') {
+		tab();
 		return;
 	}
 	int index = cursor_y * 80 + cursor_x;

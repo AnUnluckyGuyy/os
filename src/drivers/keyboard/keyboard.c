@@ -1,5 +1,12 @@
+#include <stdbool.h>
 #include "keyboard.h"
+#include "ps2.h"
+#include "scancode.h"
 #include "../../cpu/io.h"
+#include "../serial/serial.h"
+
+static bool shift = false;
+static bool caps = false;
 
 char keymap[128] = {
     [0x1E] = 'a',
@@ -28,20 +35,51 @@ char keymap[128] = {
     [0x2D] = 'x',
     [0x15] = 'y',
     [0x2C] = 'z',
+    [0x02] = '1',
+    [0x03] = '2',
+    [0x04] = '3',
+    [0x05] = '4',
+    [0x06] = '5',
+    [0x07] = '6',
+    [0x08] = '7',
+    [0x09] = '8',
+    [0x0A] = '9',
+    [0x0B] = '0',
+    [0x0C] = '-',
+    [0x0D] = '=',
     [0x39] = ' ',
     [0x1C] = '\n',
     [0x0E] = '\b',
+    [0x0F] = '\t',
 };
 
 unsigned char read_keyboard() {
-    if (inb(0x64) & 1) {
-        unsigned char scancode = inb(0x60);
+    if (inb(PS2_STATUS_PORT) & 1) {
+        unsigned char scancode = inb(PS2_DATA_PORT);
 
-        if (scancode & 0x80) {
+        if (scancode & SC_RELEASE) {
+            if (scancode == 0xAA || scancode == 0xB6) {
+                serial_print("SHIFT_KEY_UNPRESSED");
+                shift = false;
+            }
             return 0;
         }
+        if (scancode == SC_LEFT_SHIFT || scancode == SC_RIGHT_SHIFT) {
+            serial_print("SHIFT_KEY_PRESSED");
+            shift = true;
+            return 0;
+        } else if (scancode == SC_CAPS_LOCK) {
+            caps = !caps;
+        }
 
-        return keymap[scancode];
+        char c = keymap[scancode];
+        if (shift || caps) {
+            int offset = 32;
+            if (c >= 'a' && c <= 'z') {
+                return c - 32;
+            }
+        }
+        return c;
     }
     return 0;
 }
