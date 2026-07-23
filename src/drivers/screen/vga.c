@@ -41,6 +41,16 @@ void vga_disable_cursor() {
     outb(0x3D5, 0x20);
 }
 
+void vga_init() {
+	for (int i = 0; i < VGA_WIDTH * VGA_HEIGHT * 2; i++) {
+		if (i % 2 == 0) {
+			video[i] = ' ';
+		} else {
+			video[i] = 0x07;
+		}
+	}
+}
+
 void vga_putchar(char c) {
 	if (is_offscreen()) {
 		new_line();

@@ -3,6 +3,7 @@
 #include "../drivers/keyboard/keyboard.h"
 
 void kernel_main() {
+    vga_init();
     vga_disable_cursor();
     vga_print("hello world");
     serial_print("hello world");
